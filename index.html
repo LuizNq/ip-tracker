@@ -19,7 +19,7 @@
         <div class="ip-container">
           <input type="text" id="ip" name="ip"
               pattern="^((25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])$"
-              placeholder="Search for any IP address." 
+              placeholder="Search for any IP address" 
               required>
         </div>
         <button type="submit" class="submit-btn btn"><img src="./images/icon-arrow.svg"></button>
@@ -54,53 +54,6 @@
     <div id="map"></div>
   </main>
 
-  <script>
-    let map = L.map('map').setView([0, 0], 2); // Inicializa o mapa globalmente
-    let marker = L.marker([0, 0]).addTo(map); // Marcador inicial vazio
-  
-    // Adiciona o mapa do OpenStreetMap
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-  
-    // Função para buscar e exibir a localização do IP
-    function fetchIPDetails(ip) {
-      fetch(`http://ip-api.com/json/${ip}`)
-        .then(res => res.json())
-        .then(res => {
-          if (res.status === "fail") {
-            alert("IP inválido ou não encontrado!");
-            return;
-          }
-  
-          document.querySelector('.ip-address').textContent = res.query;
-          document.querySelector('.location').textContent = `${res.city}, ${res.countryCode}, ${res.zip}`;
-          document.querySelector('.timezone').textContent = res.timezone;
-          document.querySelector('.isp').textContent = res.isp;
-  
-          // Atualiza o mapa com a localização do IP
-          let lat = res.lat, lon = res.lon;
-          map.setView([lat, lon], 12);
-          marker.setLatLng([lat, lon]).bindPopup(`<b>${res.city}, ${res.country}</b>`).openPopup();
-        })
-        .catch(() => alert("Erro ao buscar informações do IP!"));
-    }
-  
-    // Obtém automaticamente o IP do usuário
-    fetch('https://api.ipify.org/?format=json')
-      .then(res => res.json())
-      .then(data => fetchIPDetails(data.ip)) // Chama a função com o IP detectado
-      .catch(() => alert("Erro ao obter seu IP!"));
-  
-    // Captura envio do formulário para buscar outro IP
-    document.querySelector('.ip-form').addEventListener('submit', function(event) {
-      event.preventDefault();
-      let ip = document.querySelector('#ip').value;
-      fetchIPDetails(ip);
-    });
-  
-  </script>
-  
-  
+  <script src="app.js"></script>
 </body>
 </html>
